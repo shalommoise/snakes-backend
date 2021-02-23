@@ -19,8 +19,14 @@
   },
   "homepage": "https://github.com/shalommoise/snakes-backend#readme",
   "dependencies": {
+    "-": "0.0.1",
+    "D": "^1.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.11.17"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "supertest": "^6.1.3"
   }
 }
