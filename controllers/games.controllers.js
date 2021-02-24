@@ -1,4 +1,4 @@
-const {createGame} = require("../models/games.models")
+
 let db = require('../Schema');
 const postGame = (req, res)=>{
   
@@ -22,5 +22,10 @@ else {
 }
     })
 }
-
-module.exports = {postGame, getAllGames}
+const delAllGames =(req,res)=>{
+  db.Game.deleteMany({ active: false  }, function (err) {
+  if(err) console.log(err);
+  res.status(204).json({games: []})
+});
+}
+module.exports = {postGame, getAllGames, delAllGames}

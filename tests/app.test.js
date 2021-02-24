@@ -14,7 +14,9 @@ describe("/api", ()=>{
       })
     });
   test('200 GET all games', () => {
-    return request(app).get("/api/games").expect(200).then((res)=>{
+    return request(app).get("/api/games")
+    .expect(200)
+    .then((res)=>{
       const {games} = res.body;
       games.forEach((game)=>{
         const {player1, player2, snake1, snake2, food, points1,points2,game_over,active} = game
@@ -30,5 +32,13 @@ describe("/api", ()=>{
       })
     })
   });
+  test("204 DEL all games", ()=>{
+     return request(app).del("/api/games")
+     .expect(204)
+     .then((res)=>{
+    
+      expect(res.body).toEqual({})
+    })
+  })
   })
 })
