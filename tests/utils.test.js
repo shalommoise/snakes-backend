@@ -27,7 +27,6 @@ describe("passwordGenerator",()=>{
   test('last two charcters should be random numbers', () => {
     const code1 = passwordGenerator();
     const code2 = passwordGenerator();
-    console.log(code1, code2)
     const lastOfCode1 = code1[3] + code1[4];
     const lastOfCode2 = code2[3] + code2[4];
     expect(lastOfCode1).not.toBe(lastOfCode2);
@@ -35,11 +34,11 @@ describe("passwordGenerator",()=>{
 })
 
 describe("radnomCoordinate", ()=>{
-  test('returns empty string', () => {
-    expect(radnomCoordinate()).toBe("")
+  test('returns empty array', () => {
+    expect(radnomCoordinate()).toEqual([])
   });
   test('returns 1', () => {
-    expect(radnomCoordinate(1)).toBe("1:1")
+    expect(radnomCoordinate(1)).toEqual([1,1])
   });
   test('returns random for 10', () => {
       const size1 = radnomCoordinate(10);
@@ -50,18 +49,21 @@ describe("radnomCoordinate", ()=>{
 
   test('Coordinate cannot be 0', () => {
 
-    const arr = radnomCoordinate(10).split(":")
+    const arr = radnomCoordinate(10)
       expect(arr[0]).not.toBe("0")
       expect(arr[1]).not.toBe("0")
   });
   test('coordinates must be whole numbers', () => {
-    const arr = radnomCoordinate(30).split(":");
+    const arr = radnomCoordinate(30)
     expect(arr[0] > 0 && arr[0] <= 30).toBe(true);
     expect(arr[1] > 0 && arr[1] <= 30).toBe(true);
     expect(arr[0] % 1).toBe(0);
     expect(arr[1] % 1).toBe(0);
    
   });
+  test("must be array", ()=>{
+
+  })
 })
 
 describe("strToArr", ()=>{

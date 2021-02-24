@@ -4,8 +4,23 @@ const postGame = (req, res)=>{
   
 
 let newGame = new db.Game(req.body); 
-newGame.save((err, game)=> res.status(201).json({game})).catch((err)=>console.log(err))
+newGame.save((err, game)=> {
+if(err) console.log(err)
+ else res.status(201).json({game})
+})
+
 
 };
 
-module.exports = {postGame}
+const getAllGames =(req,res)=>{
+    db.Game.find((err, allGames)=>{
+if(err) console.log(err);
+else {
+    res.json({
+        games: allGames
+    })
+}
+    })
+}
+
+module.exports = {postGame, getAllGames}
