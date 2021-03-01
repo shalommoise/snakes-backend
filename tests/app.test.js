@@ -42,7 +42,7 @@ describe("/api", ()=>{
   })
   })
   describe("/:id", ()=>{
-    test.only('GET game by id', () => {
+    test('200 GET game by id', () => {
       return request(app)
       .post("/api/games/")
       .send({player1: "Charlie"})
@@ -58,5 +58,24 @@ describe("/api", ()=>{
      })
       })
     });
+
+      test('200 GET game by login_code', () => {
+    return request(app)
+      .post("/api/games/")
+      .send({player1: "James"})
+      .expect(201)
+      .then((res)=>{
+        const {login_code} = res.body.game;
+        console.log(login_code)
+        return request(app)
+     .get(`/api/games?login_code=${login_code}`)
+     .expect(200)
+     .then((res)=>{
+
+     expect(res.body.game.player1).toBe("James")
+     })
+      })
+  });
   })
+
 })
