@@ -41,4 +41,22 @@ describe("/api", ()=>{
     })
   })
   })
+  describe("/:id", ()=>{
+    test.only('GET game by id', () => {
+      return request(app)
+      .post("/api/games/")
+      .send({player1: "Charlie"})
+      .expect(201)
+      .then((res)=>{
+     const {_id} = res.body.game;
+     return request(app)
+     .get(`/api/games/${_id}`)
+     .expect(200)
+     .then((res)=>{
+  
+       expect(res.body.game.player1).toBe("Charlie")
+     })
+      })
+    });
+  })
 })

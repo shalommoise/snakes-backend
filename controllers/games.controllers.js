@@ -28,4 +28,13 @@ const delAllGames =(req,res)=>{
   res.status(204).json({games: []})
 });
 }
-module.exports = {postGame, getAllGames, delAllGames}
+
+const getGameById =(req,res)=>{
+    const {_id} = req.params
+db.Game.findOne(_id, (err, game)=>{
+    if(err) console.log(err);
+else res.json({game});
+})
+}
+
+module.exports = {postGame, getAllGames, delAllGames, getGameById}
