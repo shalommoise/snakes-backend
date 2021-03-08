@@ -3,6 +3,8 @@ const app = require("../app");
 
 
 describe("/api", ()=>{
+  beforeEach(() => request(app).del("/api/games"));
+    afterAll(() => request(app).del("/api/games"));
   describe("/games", ()=>{
     test('201 POST game', () => {
       return request(app)
@@ -40,26 +42,45 @@ describe("/api", ()=>{
       expect(res.body).toEqual({})
     })
   })
+    test('200 GET game by login_code', () => {
+    return request(app)
+      .post("/api/games/")
+      .send({player1: "James"})
+      .expect(201)
+      .then((res)=>{
+        const {login_code} = res.body.game;
+        
+        return request(app)
+     .get(`/api/games?login_code=${login_code}`)
+     .expect(200)
+     .then((res)=>{
+ 
+     expect(res.body.games[0].player1).toBe("James")
+     })
+      })
+  });
   })
   describe("/:id", ()=>{
     test('200 GET game by id', () => {
       return request(app)
       .post("/api/games/")
-      .send({player1: "Charlie"})
+      .send({player1: "James"})
       .expect(201)
       .then((res)=>{
+      
      const {_id} = res.body.game;
+     
      return request(app)
      .get(`/api/games/${_id}`)
      .expect(200)
      .then((res)=>{
-  
-       expect(res.body.game.player1).toBe("Charlie")
+ 
+       expect(res.body.game.player1).toBe("James");
      })
       })
 
     });
-test.only('PATCH 201 change player2 name', () => {
+test('PATCH 201 change player2 name', () => {
    return request(app)
       .post("/api/games/")
       .send({player1: "Charlie"})
@@ -77,23 +98,25 @@ test.only('PATCH 201 change player2 name', () => {
      })
       })
 });
-      test('200 GET game by login_code', () => {
-    return request(app)
+test("PATCH 201 change player1 name", ()=>{
+  return request(app)
       .post("/api/games/")
-      .send({player1: "James"})
+      .send({player1: "Charlie"})
       .expect(201)
       .then((res)=>{
-        const {login_code} = res.body.game;
-        console.log(login_code)
-        return request(app)
-     .get(`/api/games?login_code=${login_code}`)
-     .expect(200)
+     const {_id} = res.body.game;
+    
+     return request(app)
+     .patch(`/api/games/${_id}`)
+     .send({player1: "Bart"})
+     .expect(201)
      .then((res)=>{
-
-     expect(res.body.game.player1).toBe("James")
+      
+       expect(res.body.game.player1).toBe("Bart")
      })
       })
-  });
-  })
+});
+ 
+})
 
 })

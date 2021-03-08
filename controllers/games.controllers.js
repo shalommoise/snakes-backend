@@ -3,12 +3,13 @@ let db = require('../Schema');
 const {passwordGenerator} = require("../utils/utils")
 const postGame = (req, res)=>{
   
-
+const {login_code} = req.body;
 let newGame = new db.Game(req.body); 
 newGame.save((err, game)=> {
 if(err) console.log(err)
  else {
-     game.login_code = passwordGenerator()
+     game.login_code = login_code ? login_code : passwordGenerator();
+
      res.status(201).json({game})
     }
 })
@@ -18,17 +19,16 @@ if(err) console.log(err)
 
 const getAllGames =(req,res)=>{
     const {login_code} = req.query;
-    
-if(login_code) {
-    db.Game.findOne({login_code}, (err, game)=>{
-    if(err) console.log(err);
-   else res.json({game});
-})
-}
- else   db.Game.find((err, allGames)=>{
+  
+   db.Game.find((err, allGames)=>{
 if(err) console.log(err);
 else {
-    res.json({
+    if(login_code) {
+ const game = allGames.filter((game)=>game.login_code = login_code);
+     res.json({games: game})
+    }
+   
+   else res.json({
         games: allGames
     })
 }
@@ -58,8 +58,10 @@ db.Game.findOneAndUpdate(id, req.body,(err, game)=>{
     
     if(err) console.log(err);
 else {
-const {player2} = req.body;
+const {player1,player2} = req.body;
 if(player2) game.player2 = player2;
+if(player1) game.player1 = player1;
+
     res.status(201).json({game})
 };
 })
