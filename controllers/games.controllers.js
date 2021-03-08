@@ -58,10 +58,11 @@ db.Game.findOneAndUpdate(id, req.body,(err, game)=>{
     
     if(err) console.log(err);
 else {
-const {player1,player2} = req.body;
+const {player1,player2, snake1, snake2} = req.body;
 if(player2) game.player2 = player2;
 if(player1) game.player1 = player1;
-
+if(snake1) game.snake1 = snake1;
+if(snake2) game.snake2 = snake2;
     res.status(201).json({game})
 };
 })

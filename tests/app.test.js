@@ -116,7 +116,45 @@ test("PATCH 201 change player1 name", ()=>{
      })
       })
 });
- 
+ test("PATCH 201 snake1", ()=>{
+   return request(app)
+      .post("/api/games/")
+      .send({player1: "charles"})
+      .expect(201)
+      .then((res)=>{
+     const {_id, snake1} = res.body.game;
+    
+     return request(app)
+     .patch(`/api/games/${_id}`)
+     .send({snake1: [[6,15],[7,15],[8,15]]})
+     .expect(201)
+     .then((res)=>{
+      
+       expect(res.body.game.snake1).toEqual([[6,15],[7,15],[8,15]]);
+        expect(res.body.game.snake1).not.toEqual(snake1)
+     })
+      })
+ })
+
+ test("PATCH 201 snake2", ()=>{
+   return request(app)
+      .post("/api/games/")
+      .send({player1: "charles"})
+      .expect(201)
+      .then((res)=>{
+     const {_id, snake2} = res.body.game;
+    
+     return request(app)
+     .patch(`/api/games/${_id}`)
+     .send({snake2: [[25,15],[26,15],[27,15]]})
+     .expect(201)
+     .then((res)=>{
+      
+       expect(res.body.game.snake2).toEqual([[25,15],[26,15],[27,15]]);
+        expect(res.body.game.snake2).not.toEqual(snake2)
+     })
+      })
+ })
 })
 
 })
