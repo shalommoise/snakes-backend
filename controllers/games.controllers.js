@@ -51,4 +51,18 @@ else res.json({game});
 })
 }
 
-module.exports = {postGame, getAllGames, delAllGames, getGameById}
+const patchGame = (req,res)=>{
+    const {id} = req.params;
+    
+db.Game.findOneAndUpdate(id, req.body,(err, game)=>{
+    
+    if(err) console.log(err);
+else {
+const {player2} = req.body;
+if(player2) game.player2 = player2;
+    res.status(201).json({game})
+};
+})
+}
+
+module.exports = {postGame, getAllGames, delAllGames, getGameById, patchGame}

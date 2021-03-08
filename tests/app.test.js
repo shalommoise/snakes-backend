@@ -57,8 +57,26 @@ describe("/api", ()=>{
        expect(res.body.game.player1).toBe("Charlie")
      })
       })
-    });
 
+    });
+test.only('PATCH 201 change player2 name', () => {
+   return request(app)
+      .post("/api/games/")
+      .send({player1: "Charlie"})
+      .expect(201)
+      .then((res)=>{
+     const {_id} = res.body.game;
+    
+     return request(app)
+     .patch(`/api/games/${_id}`)
+     .send({player2: "Bart"})
+     .expect(201)
+     .then((res)=>{
+  
+       expect(res.body.game.player2).toBe("Bart")
+     })
+      })
+});
       test('200 GET game by login_code', () => {
     return request(app)
       .post("/api/games/")
