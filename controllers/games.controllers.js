@@ -64,8 +64,8 @@ if(player2) game.player2 = player2;
 if(player1) game.player1 = player1;
 if(snake1) game.snake1 = snake1;
 if(snake2) game.snake2 = snake2;
-// if(active) 
-game.active = active;
+ if(active || active === false) game.active = active;
+ 
     res.status(201).json({game})
 };
 })
