@@ -155,6 +155,47 @@ test("PATCH 201 change player1 name", ()=>{
      })
       })
  })
+ test("PATCH 201 start game", ()=>{
+   return request(app)
+      .post("/api/games/")
+      .send({player1: "charlie"})
+      .expect(201)
+      .then((res)=>{
+     const {_id} = res.body.game;
+    
+     return request(app)
+     .patch(`/api/games/${_id}`)
+     .send({active: true})
+     .expect(201)
+     .then((res)=>{
+      
+       expect(res.body.game.active).toBe(true);
+        
+     })
+      })
+ })
+ test("PATCH 201 pause game", ()=>{
+   return request(app)
+      .post("/api/games/")
+      .send({player1: "Jamie", player2: "William"})
+      .expect(201)
+      .then((res)=>{
+     const {_id} = res.body.game;
+     return request(app)
+     .patch(`/api/games/${_id}`)
+     .send({active: true})
+     .expect(201)
+     .then((res)=>{
+     return request(app)
+    .patch(`/api/games/${res.body.game._id}`)
+     .send({active: false})
+     .expect(201)
+     .then((res)=>{
+       expect(res.body.game.active).toBe(false);
+     })
+     })
+      })
+ })
 })
 
 })
