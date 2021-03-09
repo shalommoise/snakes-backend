@@ -58,14 +58,17 @@ db.Game.findOneAndUpdate(id, req.body,(err, game)=>{
     
     if(err) console.log(err);
 else {
-const {player1,player2, snake1, snake2, active} = req.body;
+const {player1,player2, snake1, snake2, active, game_over} = req.body;
 
 if(player2) game.player2 = player2;
 if(player1) game.player1 = player1;
 if(snake1) game.snake1 = snake1;
 if(snake2) game.snake2 = snake2;
  if(active || active === false) game.active = active;
- 
+ if(game_over){ 
+     game.game_over = game_over;
+     game.active = false;
+    }
     res.status(201).json({game})
 };
 })
