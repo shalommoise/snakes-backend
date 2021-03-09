@@ -248,6 +248,25 @@ test("PATCH 201 change player1 name", ()=>{
      })
       })
  });
+ test.only('PATCH 201 if snake2 head reaches food points2++', () => {
+   return request(app)
+      .post("/api/games/")
+      .send({player1: "Abraham", player2: "Sarah"})
+      .expect(201)
+      .then((res)=>{
+          const {_id, food} = res.body.game;
+          const copyFood =[...food];
+  return request(app)
+     .patch(`/api/games/${_id}`)
+     .send({snake2: [copyFood, [26,15],[27,15]] })
+     .expect(201)
+     .then((res)=>{
+       const {points2} = res.body.game;
+       expect(points2).toBe(1);
+       
+     })
+      })
+ });
 })
 
 })

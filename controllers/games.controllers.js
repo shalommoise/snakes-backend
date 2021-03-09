@@ -77,7 +77,15 @@ if(snake1){
      game.points1++
  }
 }
-if(snake2) game.snake2 = snake2;
+if(snake2) {
+    game.snake2 = snake2;
+    const head2 = snake2[0];
+    const [x2, y2] = head2;
+    const [xF, yF] = game.food;
+    if(x2 === xF && y2 === yF){
+     game.points2++
+ }
+}
  if(active || active === false) game.active = active;
  if(game_over){ 
      game.game_over = game_over;
