@@ -70,21 +70,11 @@ if(player2) game.player2 = player2;
 if(player1) game.player1 = player1;
 if(snake1){ 
     game.snake1 = snake1;
-    const head1 = snake1[0];
-    const [x1, y1] = head1;
-    const [xF, yF] = game.food;
-    if(x1 === xF && y1 === yF){
-     game.points1++
- }
+    checkSnake(snake1,game.food) && game.points1++;
 }
 if(snake2) {
     game.snake2 = snake2;
-    const head2 = snake2[0];
-    const [x2, y2] = head2;
-    const [xF, yF] = game.food;
-    if(x2 === xF && y2 === yF){
-     game.points2++
- }
+    checkSnake(snake2,game.food) && game.points2++;
 }
  if(active || active === false) game.active = active;
  if(game_over){ 
@@ -96,6 +86,14 @@ if(snake2) {
     res.status(201).json({game})
 };
 })
+}
+
+const checkSnake=(snake, food)=>{
+    const head = snake[0];
+    const [x, y] = head;
+    const [xF, yF] = food;
+    if(x === xF && y === yF) return true;
+    else return false
 }
 
 module.exports = {postGame, getAllGames, delAllGames, getGameById, patchGame, removeGameById}

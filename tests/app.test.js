@@ -248,7 +248,7 @@ test("PATCH 201 change player1 name", ()=>{
      })
       })
  });
- test.only('PATCH 201 if snake2 head reaches food points2++', () => {
+ test('PATCH 201 if snake2 head reaches food points2++', () => {
    return request(app)
       .post("/api/games/")
       .send({player1: "Abraham", player2: "Sarah"})
