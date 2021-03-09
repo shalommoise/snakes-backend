@@ -1,6 +1,6 @@
 
 let db = require('../Schema');
-const {passwordGenerator} = require("../utils/utils")
+const {passwordGenerator, radnomCoordinate} = require("../utils/utils")
 const postGame = (req, res)=>{
   
 const {login_code} = req.body;
@@ -70,12 +70,22 @@ if(player2) game.player2 = player2;
 if(player1) game.player1 = player1;
 if(snake1){ 
     game.snake1 = snake1;
-    checkSnake(snake1,game.food) && game.points1++;
-}
+   if(checkSnake(snake1,game.food)) { 
+       game.points1++ 
+       game.food = radnomCoordinate(game.size);
+};
+if (checkFood(game.food, snake1)) game.food = radnomCoordinate(game.size)
+};
 if(snake2) {
     game.snake2 = snake2;
-    checkSnake(snake2,game.food) && game.points2++;
-}
+     if(checkSnake(snake2,game.food)) { 
+       game.points2++ 
+       game.food = radnomCoordinate(game.size);
+};
+    
+
+if (checkFood(game.food, snake2)) game.food = radnomCoordinate(game.size)
+};
  if(active || active === false) game.active = active;
  if(game_over){ 
      game.game_over = game_over;
@@ -95,5 +105,15 @@ const checkSnake=(snake, food)=>{
     if(x === xF && y === yF) return true;
     else return false
 }
+const checkFood = (food, snake)=>{
+    let isInFood = false;
+    const [xF, yF] = food;
+    snake.forEach((coordinate)=>{
+        const [x,y] = coordinate;
+        if(x === xF && y === yF) isInFood = true;
+    })
+   return isInFood;
+}
+
 
 module.exports = {postGame, getAllGames, delAllGames, getGameById, patchGame, removeGameById}

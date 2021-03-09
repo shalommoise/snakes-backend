@@ -267,6 +267,26 @@ test("PATCH 201 change player1 name", ()=>{
      })
       })
  });
+ test('PATCH 201 if snake1 or snake2 reaches food, randomCooridinate', () => {
+   return request(app)
+      .post("/api/games/")
+      .send({player1: "Isaac", player2: "Rebecca"})
+      .expect(201)
+      .then((res)=>{
+          const {_id, food} = res.body.game;
+          const copyFood =[...food];
+  return request(app)
+     .patch(`/api/games/${_id}`)
+     .send({snake2: [copyFood, [26,15],[27,15]] })
+     .expect(201)
+     .then((res)=>{
+       const {food} = res.body.game;
+       expect(food[0]).not.toEqual(copyFood[0]);
+       expect(food[1]).not.toEqual(copyFood[1]);
+     })
+      })
+ });
 })
-
+// next to make tests for snake eating itself: lose?
+//snake eating other snake : shortens other snake
 })

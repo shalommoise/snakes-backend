@@ -12,6 +12,7 @@ let GameSchema =  new Schema({
   points2: { type: Number, default: 0 },
   game_over: { type: Boolean, default: false },
   active: { type: Boolean, default: false }, 
+  size: { type: Number, default: 30 },
   date: { type: Date, default: Date.now }
 });
 
