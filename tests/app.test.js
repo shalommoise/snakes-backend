@@ -3,7 +3,7 @@ const app = require("../app");
 
 
 describe("/api", ()=>{
-  beforeEach(() => request(app).del("/api/games"));
+  beforeEach(() => {return request(app).del("/api/games")});
     afterAll(() => request(app).del("/api/games"));
   describe("/games", ()=>{
     test('201 POST game', () => {
@@ -90,11 +90,11 @@ test('PATCH 201 change player2 name', () => {
     
      return request(app)
      .patch(`/api/games/${_id}`)
-     .send({player2: "Bart"})
+     .send({player2: "Debbie"})
      .expect(201)
      .then((res)=>{
   
-       expect(res.body.game.player2).toBe("Bart")
+       expect(res.body.game.player2).toBe("Debbie")
      })
       })
 });
@@ -108,11 +108,11 @@ test("PATCH 201 change player1 name", ()=>{
     
      return request(app)
      .patch(`/api/games/${_id}`)
-     .send({player1: "Bart"})
+     .send({player1: "Debbie"})
      .expect(201)
      .then((res)=>{
       
-       expect(res.body.game.player1).toBe("Bart")
+       expect(res.body.game.player1).toBe("Debbie")
      })
       })
 });
@@ -215,7 +215,7 @@ test("PATCH 201 change player1 name", ()=>{
   test("PATCH 201 Game over to true, sets active to false", ()=>{
    return request(app)
       .post("/api/games/")
-      .send({player1: "Bill", player2: "Brian"})
+      .send({player1: "Adam", player2: "Eve"})
       .expect(201)
       .then((res)=>{
         const {_id} = res.body.game;
@@ -229,6 +229,25 @@ test("PATCH 201 change player1 name", ()=>{
      })
       })
  })
+ test('PATCH 201 if snake1 head reaches food points1++', () => {
+   return request(app)
+      .post("/api/games/")
+      .send({player1: "Samuel", player2: "David"})
+      .expect(201)
+      .then((res)=>{
+          const {_id, food} = res.body.game;
+          const copyFood =[...food];
+  return request(app)
+     .patch(`/api/games/${_id}`)
+     .send({snake1: [copyFood, [26,15],[27,15]] })
+     .expect(201)
+     .then((res)=>{
+       const {points1} = res.body.game;
+       expect(points1).toBe(1);
+       
+     })
+      })
+ });
 })
 
 })
