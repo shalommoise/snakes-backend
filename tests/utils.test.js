@@ -1,4 +1,4 @@
-const {passwordGenerator, radnomCoordinate} = require("../utils/utils");
+const {passwordGenerator, radnomCoordinate, isSnakeEatingSnake} = require("../utils/utils");
 
 describe("passwordGenerator",()=>{
   test('Returns string', () => {
@@ -64,4 +64,24 @@ describe("radnomCoordinate", ()=>{
 })
 
 
-
+describe.only("isSnakeEatingSnake()", ()=>{
+  test("empty snakes returns empty array", ()=>{
+    expect(isSnakeEatingSnake()).toEqual({snake1:[],snake2:[]})
+  });
+   test("string snakes returns empty array", ()=>{
+    expect(isSnakeEatingSnake("gsg","sgg")).toEqual({snake1:[],snake2:[]})
+  });
+  test('snakes are NOT eating each other', () => {
+    expect(isSnakeEatingSnake([[26,15],[27,15],[28,15]] ,[[5,15],[4,15],[3,15]])).toEqual({snake1:[[26,15],[27,15],[28,15]],snake2:[[5,15],[4,15],[3,15]] })
+  });
+  test('snake1 eats snake2', () => {
+    const snake1 = [[25,15],[26,15],[26,14],[26,13],[26,12]];
+    const snake2 = [[24,15],[25,15], [26,15],[27,15]];
+    expect(isSnakeEatingSnake(snake1, snake2)).toEqual({snake1 ,snake2:[[24,15]]})
+  });
+  test('snake2 eats snake1', () => {
+    const snake2 = [[25,15],[26,15],[26,14],[26,13],[26,12]];
+    const snake1 = [[24,15],[25,15], [26,15],[27,15]];
+    expect(isSnakeEatingSnake(snake1, snake2)).toEqual({snake1:[[24,15]] ,snake2})
+  });
+})
