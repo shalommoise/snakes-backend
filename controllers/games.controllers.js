@@ -1,6 +1,6 @@
 
 let db = require('../Schema');
-const {passwordGenerator, radnomCoordinate, isSnakeEatingSnake} = require("../utils/utils")
+const {passwordGenerator, radnomCoordinate, isSnakeEatingSnake , checkSnake, checkFood } = require("../utils/utils")
 const postGame = (req, res)=>{
   
 const {login_code} = req.body;
@@ -98,22 +98,6 @@ game.snake1 = isSnakeEatingSnake(game.snake1, game.snake2).snake1;
 })
 }
 
-const checkSnake=(snake, food)=>{
-    const head = snake[0];
-    const [x, y] = head;
-    const [xF, yF] = food;
-    if(x === xF && y === yF) return true;
-    else return false
-}
-const checkFood = (food, snake)=>{
-    let isInFood = false;
-    const [xF, yF] = food;
-    snake.forEach((coordinate)=>{
-        const [x,y] = coordinate;
-        if(x === xF && y === yF) isInFood = true;
-    })
-   return isInFood;
-}
 
 
 module.exports = {postGame, getAllGames, delAllGames, getGameById, patchGame, removeGameById}

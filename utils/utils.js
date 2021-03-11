@@ -42,4 +42,22 @@ const isSnakeEatingSnake = (snake1, snake2) =>{
     return {snake1: [head1, ...body1], snake2: [head2, ...body2]}
 }
 
-module.exports ={passwordGenerator, radnomCoordinate, isSnakeEatingSnake}
+const checkSnake=(snake, food)=>{
+    const head = snake[0];
+    const [x, y] = head;
+    const [xF, yF] = food;
+    if(x === xF && y === yF) return true;
+    else return false
+}
+const checkFood = (food, snake)=>{
+    let isInFood = false;
+    const [xF, yF] = food;
+    snake.forEach((coordinate)=>{
+        const [x,y] = coordinate;
+        if(x === xF && y === yF) isInFood = true;
+    })
+   return isInFood;
+}
+
+
+module.exports ={passwordGenerator, radnomCoordinate, isSnakeEatingSnake, checkSnake, checkFood}
