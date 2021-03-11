@@ -286,7 +286,7 @@ test("PATCH 201 change player1 name", ()=>{
       })
 
  });
-test("201 PATCH snake bites other snake reduces other snake's length", ()=>{
+test.only("201 PATCH snake bites other snake reduces other snake's length", ()=>{
 return request(app)
       .post("/api/games/")
       .send({player1: "Jacob", player2: "Rachel"})
@@ -302,8 +302,8 @@ return request(app)
      })
       })
 })
-// next to make tests for snake eating itself == snake goes to 0 and other snake can carry on playing 
-test("201 PATCH snake bites other snake increases snake's length", ()=>{
+
+test.only("201 PATCH snake bites other snake increases snake's length", ()=>{
 return request(app)
       .post("/api/games/")
       .send({player1: "Michael", player2: "Gabe"})
@@ -315,11 +315,31 @@ return request(app)
      .send({snake1: [[24,12],[24,13],[25,13],[26,13],[26,12],[25,12],[24,12],[23,12]]})
      .expect(201).
      then((res)=>{
-       
        expect(res.body.game.snake1).toEqual([])
      })
       })
 })
-})
 
+ test.only("201 PATCH game_over to true when both snakes are []", ()=>{
+   return request(app)
+      .post("/api/games/")
+      .send({player1: "Simon", player2: "Timmy"})
+      .expect(201)
+      .then((res)=>{
+    const {_id} = res.body.game;
+return request(app)
+     .patch(`/api/games/${_id}`)
+     .send({
+       snake1: [],
+       snake2: [[24,12],[24,13],[25,13],[26,13],[26,12],[25,12],[24,12],[23,12]]
+      })
+     .expect(201).
+     then((res)=>{
+       expect(res.body.game.snake1).toEqual([]);
+       expect(res.body.game.snake2).toEqual([]);
+       expect(res.body.game.game_over).toBe(true);
+      })
+})
+})
+ })
 })

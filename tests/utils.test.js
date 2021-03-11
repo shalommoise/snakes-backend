@@ -1,4 +1,4 @@
-const {passwordGenerator, radnomCoordinate, isSnakeEatingSnake} = require("../utils/utils");
+const {passwordGenerator, radnomCoordinate, isSnakeEatingSnake, snakeEatItself} = require("../utils/utils");
 
 describe("passwordGenerator",()=>{
   test('Returns string', () => {
@@ -66,32 +66,41 @@ describe("radnomCoordinate", ()=>{
 
 describe("isSnakeEatingSnake()", ()=>{
   test("empty snakes returns empty array", ()=>{
-    expect(isSnakeEatingSnake()).toEqual({newSnake1:[],newSnake2:[]})
+    expect(isSnakeEatingSnake()).toEqual([])
   });
    test("string snakes returns empty array", ()=>{
-    expect(isSnakeEatingSnake("gsg","sgg")).toEqual({newSnake1:[],newSnake2:[]})
+    expect(isSnakeEatingSnake("gsg","sgg")).toEqual([])
   });
   test('snakes are NOT eating each other', () => {
-    expect(isSnakeEatingSnake([[26,15],[27,15],[28,15]] ,[[5,15],[4,15],[3,15]])).toEqual({newSnake1:[[26,15],[27,15],[28,15]],newSnake2:[[5,15],[4,15],[3,15]] })
+    const snake1 = [[26,15],[27,15],[28,15]];
+    const snake2 = [[5,15],[4,15],[3,15]];
+    expect(isSnakeEatingSnake(snake1 ,snake2)).toEqual([[26,15],[27,15],[28,15]])
   });
   test('snake1 eats snake2', () => {
     const snake1 = [[25,15],[26,15],[26,14],[26,13],[26,12]];
     const snake2 = [[24,15],[25,15], [26,15],[27,15]];
-    expect(isSnakeEatingSnake(snake1, snake2)).toEqual({newSnake1: snake1 ,newSnake2:[[24,15]]})
+    expect(isSnakeEatingSnake(snake2, snake1)).toEqual([[24,15]])
   });
   test('snake2 eats snake1', () => {
-    const snake2 = [[25,15],[26,15],[26,14],[26,13],[26,12]];
     const snake1 = [[24,15],[25,15], [26,15],[27,15]];
-    expect(isSnakeEatingSnake(snake1, snake2)).toEqual({newSnake1:[[24,15]], newSnake2: snake2})
+    const snake2 = [[25,15],[26,15],[26,14],[26,13],[26,12]];
+    expect(isSnakeEatingSnake(snake1, snake2)).toEqual([[24,15]])
   });
-  test('snake1 eats itslef makes it go to []', ()=>{
-    const snake2 = [[35,15],[36,15],[36,14],[36,13],[36,12]];
-    const snake1 = [[24,12],[24,13],[25,13],[26,13],[26,12],[25,12],[24,12],[23,12]];
-     expect(isSnakeEatingSnake(snake1, snake2)).toEqual({newSnake1:[] ,newSnake2: snake2})
+  
+})
+
+describe("snakeEatItself()", ()=>{
+  test('snake is empty', () => {
+    const snake =[];
+     expect(snakeEatItself(snake)).toEqual([]);
+  });
+  test("snake doesn't eat itself", () => {
+    const snake = [[35,15],[36,15],[36,14],[36,13],[36,12]];
+    expect(snakeEatItself(snake)).toEqual([[35,15],[36,15],[36,14],[36,13],[36,12]]);
+  });
+test('snake1 eats itslef makes it go to []', ()=>{
+    const snake = [[24,12],[24,13],[25,13],[26,13],[26,12],[25,12],[24,12],[23,12]];
+     expect(snakeEatItself(snake)).toEqual([]);
   })
-  test('snake2 eats itslef makes it go to []', ()=>{
-    const snake1 = [[35,15],[36,15],[36,14],[36,13],[36,12]];
-    const snake2 = [[24,12],[24,13],[25,13],[26,13],[26,12],[25,12],[24,12],[23,12]];
-     expect(isSnakeEatingSnake(snake1, snake2)).toEqual({newSnake1: snake1 ,newSnake2: []})
-  })
+  
 })
