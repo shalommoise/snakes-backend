@@ -286,7 +286,7 @@ test("PATCH 201 change player1 name", ()=>{
       })
 
  });
-test.only("201 PATCH snake bites other snake reduces other snake's length", ()=>{
+test("201 PATCH snake bites other snake reduces other snake's length", ()=>{
 return request(app)
       .post("/api/games/")
       .send({player1: "Jacob", player2: "Rachel"})
@@ -303,7 +303,7 @@ return request(app)
       })
 })
 
-test.only("201 PATCH snake bites other snake increases snake's length", ()=>{
+test("201 PATCH snake itself and turns to []", ()=>{
 return request(app)
       .post("/api/games/")
       .send({player1: "Michael", player2: "Gabe"})
@@ -320,7 +320,7 @@ return request(app)
       })
 })
 
- test.only("201 PATCH game_over to true when both snakes are []", ()=>{
+ test("201 PATCH game_over to true when both snakes are []", ()=>{
    return request(app)
       .post("/api/games/")
       .send({player1: "Simon", player2: "Timmy"})

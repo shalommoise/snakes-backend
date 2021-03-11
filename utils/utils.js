@@ -54,6 +54,8 @@ const separateSnake = (snake)=>{
 }
 const isSnakeEatingSnake = (snakeA, snakeB) =>{
   if(typeof snakeA !== "object" || typeof snakeB !== "object") return [];
+  if(!snakeB.length) return snakeA;
+  if(!snakeA.length) return []; 
    const {body , head} = separateSnake(snakeA);
    const headB = separateSnake(snakeB).head;  
    const [x,y] = headB

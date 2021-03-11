@@ -1,6 +1,6 @@
 
 let db = require('../Schema');
-const {passwordGenerator, radnomCoordinate, isSnakeEatingSnake , checkSnake, checkFood } = require("../utils/utils")
+const {passwordGenerator, radnomCoordinate, isSnakeEatingSnake , checkSnake, checkFood, snakeEatItself } = require("../utils/utils")
 const postGame = (req, res)=>{
   
 const {login_code} = req.body;
@@ -85,8 +85,11 @@ if(snake2) {
     
 if (checkFood(game.food, snake2)) game.food = radnomCoordinate(game.size)
 };
-game.snake2 = isSnakeEatingSnake(game.snake1, game.snake2).newSnake2;
-game.snake1 = isSnakeEatingSnake(game.snake1, game.snake2).newSnake1;
+game.snake1 = isSnakeEatingSnake(game.snake1, game.snake2);
+game.snake2 = isSnakeEatingSnake(game.snake2, game.snake1);
+game.snake1 = snakeEatItself(game.snake1);
+game.snake2 = snakeEatItself(game.snake2);
+if(game.snake1 === [] && game.snake2 === []) game.game_over = true; 
  if(active || active === false) game.active = active;
  if(game_over){ 
      game.game_over = game_over;
