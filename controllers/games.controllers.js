@@ -85,8 +85,8 @@ if(snake2) {
     
 if (checkFood(game.food, snake2)) game.food = radnomCoordinate(game.size)
 };
-game.snake2 = isSnakeEatingSnake(game.snake1, game.snake2).snake2;
-game.snake1 = isSnakeEatingSnake(game.snake1, game.snake2).snake1;
+game.snake2 = isSnakeEatingSnake(game.snake1, game.snake2).newSnake2;
+game.snake1 = isSnakeEatingSnake(game.snake1, game.snake2).newSnake1;
  if(active || active === false) game.active = active;
  if(game_over){ 
      game.game_over = game_over;
