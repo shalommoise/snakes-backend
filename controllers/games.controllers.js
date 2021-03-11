@@ -1,6 +1,6 @@
 
 let db = require('../Schema');
-const {passwordGenerator, radnomCoordinate} = require("../utils/utils")
+const {passwordGenerator, radnomCoordinate, isSnakeEatingSnake} = require("../utils/utils")
 const postGame = (req, res)=>{
   
 const {login_code} = req.body;
@@ -83,16 +83,16 @@ if(snake2) {
        game.food = radnomCoordinate(game.size);
 };
     
-
+ 
 if (checkFood(game.food, snake2)) game.food = radnomCoordinate(game.size)
 };
+game.snake2 = isSnakeEatingSnake(game.snake1, game.snake2).snake2;
+game.snake1 = isSnakeEatingSnake(game.snake1, game.snake2).snake1;
  if(active || active === false) game.active = active;
  if(game_over){ 
      game.game_over = game_over;
      game.active = false;
     }
-   
- 
     res.status(201).json({game})
 };
 })

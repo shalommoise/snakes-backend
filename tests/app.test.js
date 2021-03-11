@@ -288,7 +288,7 @@ test("PATCH 201 change player1 name", ()=>{
  });
 })
 // next to make tests for snake eating itself: lose?
-test.only("201 PATCH snake bites other snake reduces other snake's length", ()=>{
+test("201 PATCH snake bites other snake reduces other snake's length", ()=>{
 return request(app)
       .post("/api/games/")
       .send({player1: "Jacob", player2: "Rachel"})
@@ -300,7 +300,6 @@ return request(app)
      .send({snake2: [[24,15],[25,15], [26,15],[27,15]], snake1: [[26,15],[26,14],[26,13],[26,12]]})
      .expect(201).
      then((res)=>{
-      //  console.log(res.body.game.snake2)
        expect(res.body.game.snake2).toEqual([[24,15],[25,15]])
      })
       })
