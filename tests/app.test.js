@@ -3,8 +3,7 @@ const app = require("../app");
 
 
 describe("/api", ()=>{
-  beforeEach(() => {return request(app).del("/api/games")});
-    afterAll(() => request(app).del("/api/games"));
+  afterAll(() => request(app).del("/api/games"));
   describe("/games", ()=>{
     test('201 POST game', () => {
       return request(app)
@@ -287,7 +286,7 @@ test("PATCH 201 change player1 name", ()=>{
       })
  });
 })
-// next to make tests for snake eating itself: lose?
+
 test("201 PATCH snake bites other snake reduces other snake's length", ()=>{
 return request(app)
       .post("/api/games/")
@@ -305,5 +304,5 @@ return request(app)
       })
 
 })
-//snake eating other snake : shortens other snake
+// next to make tests for snake eating itself: lose?
 })

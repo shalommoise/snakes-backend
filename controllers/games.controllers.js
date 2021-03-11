@@ -37,24 +37,24 @@ else {
 
 
 const delAllGames =(req,res)=>{
-  db.Game.deleteMany({ active: false }, function (err) {
+  db.Game.deleteMany({}, function (err) {
   if(err) console.log(err);
   res.status(204).json({games: []})
 })
 }
 
 const getGameById =(req,res)=>{
-    const {_id} = req.params
-db.Game.findOne(_id, (err, game)=>{
+    const {id} = req.params
+db.Game.findOne({_id: id}, (err, game)=>{
     if(err) console.log(err);
 else res.json({game});
 })
 }
 const removeGameById =(req,res)=>{
-     const {_id} = req.params;
-  db.Game.findOneAndDelete(_id, (err, game)=>{
+     const {id} = req.params;
+  db.Game.findOneAndDelete({_id:id}, (err, game)=>{
     if(err) console.log(err);
-else res.status(204);
+else res.status(204).json({msg: "Game removed"});
 })
 }
 
@@ -83,7 +83,6 @@ if(snake2) {
        game.food = radnomCoordinate(game.size);
 };
     
- 
 if (checkFood(game.food, snake2)) game.food = radnomCoordinate(game.size)
 };
 game.snake2 = isSnakeEatingSnake(game.snake1, game.snake2).snake2;
