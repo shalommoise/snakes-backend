@@ -4,15 +4,7 @@ const app = require("../app");
 
 describe("/api", ()=>{
   afterAll(() => request(app).del("/api/games"));
-  describe("Errors", ()=>{
- test("404 ERR mispelling", ()=>{
-     return request(app).get("/api/gmes")
-    .expect(404).then((res)=>{
-      expect(res.body.msg).toBe("Sorry, page is not found")
-    })
-  })
-  })
- 
+
   describe("/games", ()=>{
     test('201 POST game', () => {
       return request(app)
@@ -88,7 +80,7 @@ describe("/api", ()=>{
       })
 
     });
-test('PATCH 201 change player2 name', () => {
+test('201 PATCH change player2 name', () => {
    return request(app)
       .post("/api/games/")
       .send({player1: "Charlie"})
@@ -106,7 +98,7 @@ test('PATCH 201 change player2 name', () => {
      })
       })
 });
-test("PATCH 201 change player1 name", ()=>{
+test("201 PATCH change player1 name", ()=>{
   return request(app)
       .post("/api/games/")
       .send({player1: "Charlie"})
@@ -124,7 +116,7 @@ test("PATCH 201 change player1 name", ()=>{
      })
       })
 });
- test("PATCH 201 snake1", ()=>{
+ test("201 PATCH snake1", ()=>{
    return request(app)
       .post("/api/games/")
       .send({player1: "charles"})
@@ -144,7 +136,7 @@ test("PATCH 201 change player1 name", ()=>{
       })
  })
 
- test("PATCH 201 snake2", ()=>{
+ test("201 PATCH snake2", ()=>{
    return request(app)
       .post("/api/games/")
       .send({player1: "charles"})
@@ -163,7 +155,7 @@ test("PATCH 201 change player1 name", ()=>{
      })
       })
  })
- test("PATCH 201 start game", ()=>{
+ test("201 PATCH start game", ()=>{
    return request(app)
       .post("/api/games/")
       .send({player1: "charlie"})
@@ -182,7 +174,7 @@ test("PATCH 201 change player1 name", ()=>{
      })
       })
  })
- test("PATCH 201 pause game", ()=>{
+ test("201 PATCH pause game", ()=>{
    return request(app)
       .post("/api/games/")
       .send({player1: "Jamie", player2: "William"})
@@ -204,7 +196,7 @@ test("PATCH 201 change player1 name", ()=>{
      })
       })
  })
- test("PATCH 201 Game over to true", ()=>{
+ test("201 PATCH Game over to true", ()=>{
    return request(app)
       .post("/api/games/")
       .send({player1: "Bill", player2: "Brian"})
@@ -220,7 +212,7 @@ test("PATCH 201 change player1 name", ()=>{
      })
       })
  })
-  test("PATCH 201 Game over to true, sets active to false", ()=>{
+  test("201 PATCH Game over to true, sets active to false", ()=>{
    return request(app)
       .post("/api/games/")
       .send({player1: "Adam", player2: "Eve"})
@@ -237,7 +229,7 @@ test("PATCH 201 change player1 name", ()=>{
      })
       })
  })
- test('PATCH 201 if snake1 head reaches food points1++', () => {
+ test('201 PATCH if snake1 head reaches food points1++', () => {
    return request(app)
       .post("/api/games/")
       .send({player1: "Samuel", player2: "David"})
@@ -256,7 +248,7 @@ test("PATCH 201 change player1 name", ()=>{
      })
       })
  });
- test('PATCH 201 if snake2 head reaches food points2++', () => {
+ test('201 PATCH if snake2 head reaches food points2++', () => {
    return request(app)
       .post("/api/games/")
       .send({player1: "Abraham", player2: "Sarah"})
@@ -275,7 +267,7 @@ test("PATCH 201 change player1 name", ()=>{
      })
       })
  });
- test('PATCH 201 if snake1 or snake2 reaches food, randomCooridinate', () => {
+ test('201 PATCH if snake1 or snake2 reaches food, randomCooridinate', () => {
    return request(app)
       .post("/api/games/")
       .send({player1: "Isaac", player2: "Rebecca"})
@@ -351,4 +343,22 @@ return request(app)
 })
 })
  })
+ describe("Errors", ()=>{
+ test("404 ERR mispelling", ()=>{
+     return request(app)
+    .get("/api/gmes")
+    .expect(404)
+    .then((res)=>{
+      expect(res.body.msg).toBe("Sorry, page is not found")
+    })
+  })
+  test.only('404 game id not found', () => {
+    return request(app)
+    .get("/api/games/604b71f4142de24ba6fe049a")
+    .expect(404)
+    .then((res)=>{
+      expect(res.body.msg).toBe("Sorry, this game can't be found")
+    })
+  });
+  })
 })

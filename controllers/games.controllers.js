@@ -1,6 +1,7 @@
 
 let db = require('../Schema');
-const {passwordGenerator, radnomCoordinate, isSnakeEatingSnake , checkSnake, checkFood, snakeEatItself } = require("../utils/utils")
+const {passwordGenerator, radnomCoordinate, isSnakeEatingSnake , checkSnake, checkFood, snakeEatItself } = require("../utils/utils");
+const {standardErr} = require('../errors')
 const postGame = (req, res)=>{
   
 const {login_code} = req.body;
@@ -45,7 +46,7 @@ const delAllGames =(req,res)=>{
 const getGameById =(req,res)=>{
     const {id} = req.params
 db.Game.findOne({_id: id}, (err, game)=>{
-    if(err) console.log(err);
+    if(!game) standardErr(res, 404, "Sorry, this game can't be found");
 else res.json({game});
 })
 }
