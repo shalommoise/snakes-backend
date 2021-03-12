@@ -19,8 +19,7 @@ if(err) console.log(err)
 
 const getAllGames =(req,res)=>{
     const {login_code} = req.query;
-  
-   db.Game.find((err, allGames)=>{
+     db.Game.find((err, allGames)=>{
 if(err) console.log(err);
 else {
     if(login_code) {

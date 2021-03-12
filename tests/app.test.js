@@ -4,6 +4,15 @@ const app = require("../app");
 
 describe("/api", ()=>{
   afterAll(() => request(app).del("/api/games"));
+  describe("Errors", ()=>{
+ test("404 ERR mispelling", ()=>{
+     return request(app).get("/api/gmes")
+    .expect(404).then((res)=>{
+      expect(res.body.msg).toBe("Sorry, page is not found")
+    })
+  })
+  })
+ 
   describe("/games", ()=>{
     test('201 POST game', () => {
       return request(app)

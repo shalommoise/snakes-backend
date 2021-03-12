@@ -7,5 +7,7 @@ app.use(express.json());
 const apiRouter = require("./routers/api.routers");
 app.use("/api", apiRouter);
 
-
+app.all("*", (req, res, next) => {
+  res.status(404).send({ msg: "Sorry, page is not found" });
+});
 module.exports = app;
