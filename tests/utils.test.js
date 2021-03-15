@@ -24,13 +24,11 @@ describe("passwordGenerator",()=>{
     expect(abc.includes(passwordGenerator()[2])).toBe(true)
   });
 
-  test('last two charcters should be random numbers', () => {
-    const code1 = passwordGenerator();
-    const code2 = passwordGenerator();
-    const lastOfCode1 = code1[3] + code1[4];
-    const lastOfCode2 = code2[3] + code2[4];
-    expect(lastOfCode1).not.toBe(lastOfCode2);
-  });
+
+  test('last two charcters should be seconds', ()=>{
+      const code1 = passwordGenerator();
+  expect(code1[3]+code1[4]).toBe(Date().split(" ")[4].split(":")[2])
+  })
 })
 
 describe("radnomCoordinate", ()=>{
