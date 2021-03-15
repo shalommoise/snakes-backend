@@ -9,7 +9,7 @@ let newGame = new db.Game(req.body);
 newGame.save((err, game)=> {
 if(err) console.log(err)
  else {
-     game.login_code = /*login_code ? login_code :*/ passwordGenerator();
+    //  game.login_code = /*login_code ? login_code :*/ passwordGenerator();
 
      res.status(201).json({game})
     }
@@ -20,18 +20,21 @@ if(err) console.log(err)
 
 const getAllGames =(req,res)=>{
     const {login_code} = req.query;
-     db.Game.find((err, allGames)=>{
-if(err) console.log(err);
-else {
-    if(login_code) {
- const game = allGames.filter((game)=>game.login_code = login_code);
-     res.json({games: game})
+ 
+      if(login_code) {
+        
+  db.Game.findOne({ login_code}, (err, game)=>{
+     if(err) console.log(err);
+ else    res.json({game})
+    })
     }
-   
-   else res.json({
+    else db.Game.find((err, allGames)=>{
+if(err) console.log(err);
+// allGames.forEach((game)=>console.log(game.login_code))
+//    else 
+   res.json({
         games: allGames
     })
-}
     })
 }
 
@@ -46,6 +49,7 @@ const delAllGames =(req,res)=>{
 const getGameById =(req,res)=>{
     const {id} = req.params
 db.Game.findOne({_id: id}, (err, game)=>{
+    // console.log(game.login_code)
     if(!game) standardErr(res, 404, "Sorry, this game can't be found");
 else res.json({game});
 })
