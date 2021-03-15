@@ -370,9 +370,18 @@ return request(app)
      .send({login_code: "Dalila"})
      .expect(405)
      .then((res)=>{
-       expect(res.body.msg).toBe("Sorry, cannot change login_code")
+       expect(res.body.msg).toBe("Sorry, can't change login_code")
      })
     })
   })
-  })
+   test('404 delete game that does not exist', ()=>{
+    
+ return request(app)
+     .delete('/api/games/604b71f4142de24ba6fe049a')
+     .expect(404)
+     .then((res)=>{
+       expect(res.body.msg).toBe("Sorry, this game can't be found")
+     })
+    })
+    })
 })

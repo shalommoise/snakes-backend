@@ -50,7 +50,7 @@ else res.json({game});
 const removeGameById =(req,res)=>{
      const {id} = req.params;
   db.Game.findOneAndDelete({_id:id}, (err, game)=>{
-    if(err) console.log(err);
+    if(!game) standardErr(res, 404, "Sorry, this game can't be found");
 else res.status(204).json({msg: "Game removed"});
 })
 }
@@ -58,7 +58,7 @@ else res.status(204).json({msg: "Game removed"});
 const patchGame = (req,res)=>{
     const {id} = req.params;
     const {player1,player2, snake1, snake2, active, game_over, login_code} = req.body;
-    if(login_code) standardErr(res, 405, "Sorry, cannot change login_code")
+    if(login_code) standardErr(res, 405, "Sorry, can't change login_code")
 db.Game.findOneAndUpdate({_id:id}, req.body,(err, game)=>{
     if(err) console.log(err);
 else {
