@@ -352,7 +352,7 @@ return request(app)
       expect(res.body.msg).toBe("Sorry, page is not found")
     })
   })
-  test.only('404 game id not found', () => {
+  test('404 game id not found', () => {
     return request(app)
     .get("/api/games/604b71f4142de24ba6fe049a")
     .expect(404)

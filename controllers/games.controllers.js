@@ -9,7 +9,7 @@ let newGame = new db.Game(req.body);
 newGame.save((err, game)=> {
 if(err) console.log(err)
  else {
-     game.login_code = login_code ? login_code : passwordGenerator();
+     game.login_code = /*login_code ? login_code :*/ passwordGenerator();
 
      res.status(201).json({game})
     }
@@ -60,12 +60,11 @@ else res.status(204).json({msg: "Game removed"});
 
 const patchGame = (req,res)=>{
     const {id} = req.params;
-    
-db.Game.findOneAndUpdate(id, req.body,(err, game)=>{
+    const {player1,player2, snake1, snake2, active, game_over, login_code} = req.body;
+    // console.log(login_code)
+db.Game.findOneAndUpdate({_id:id}, req.body,(err, game)=>{
     if(err) console.log(err);
 else {
-const {player1,player2, snake1, snake2, active, game_over} = req.body;
-
 if(player2) game.player2 = player2;
 if(player1) game.player1 = player1;
 if(snake1){ 
@@ -89,7 +88,8 @@ game.snake1 = isSnakeEatingSnake(game.snake1, game.snake2);
 game.snake2 = isSnakeEatingSnake(game.snake2, game.snake1);
 game.snake1 = snakeEatItself(game.snake1);
 game.snake2 = snakeEatItself(game.snake2);
-if(game.snake1 === [] && game.snake2 === []) game.game_over = true; 
+if(!game.snake1.length && !game.snake2.length) game.game_over = true; 
+
  if(active || active === false) game.active = active;
  if(game_over){ 
      game.game_over = game_over;
