@@ -49,13 +49,11 @@ describe("/api", ()=>{
       .expect(201)
       .then((res)=>{
         const {login_code} = res.body.game;
-        
         return request(app)
      .get(`/api/games?login_code=${login_code}`)
      .expect(200)
      .then((res)=>{
- 
-     expect(res.body.games[0].player1).toBe("James")
+     expect(res.body.game.player1).toBe("James")
      })
       })
   });
