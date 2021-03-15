@@ -360,5 +360,21 @@ return request(app)
       expect(res.body.msg).toBe("Sorry, this game can't be found")
     })
   });
+  test('405 Method Not allowed: chaneging login_code', ()=>{
+    return request(app)
+    .post("/api/games")
+    .send({player1: "Samson"})
+    .expect(201)
+    .then((res)=>{
+       const {_id} = res.body.game;
+return request(app)
+     .patch(`/api/games/${_id}`)
+     .send({login_code: "Dalila"})
+     .expect(405)
+     .then((res)=>{
+       expect(res.body.msg).toBe("Sorry, cannot change login_code")
+     })
+    })
+  })
   })
 })

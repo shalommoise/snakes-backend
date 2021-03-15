@@ -61,7 +61,7 @@ else res.status(204).json({msg: "Game removed"});
 const patchGame = (req,res)=>{
     const {id} = req.params;
     const {player1,player2, snake1, snake2, active, game_over, login_code} = req.body;
-    // console.log(login_code)
+    if(login_code) standardErr(res, 405, "Sorry, cannot change login_code")
 db.Game.findOneAndUpdate({_id:id}, req.body,(err, game)=>{
     if(err) console.log(err);
 else {
