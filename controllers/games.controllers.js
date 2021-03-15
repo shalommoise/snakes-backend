@@ -20,7 +20,7 @@ const getAllGames =(req,res)=>{
     const {login_code} = req.query;
       if(login_code) {
   db.Game.findOne({ login_code}, (err, game)=>{
-     if(err) console.log(err);
+    if(!game) standardErr(res, 404, "Sorry, this game can't be found");
      else  res.json({game})
     })
     }
