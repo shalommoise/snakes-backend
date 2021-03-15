@@ -383,5 +383,15 @@ return request(app)
        expect(res.body.msg).toBe("Sorry, this game can't be found")
      })
     })
+  
+    test('404 PATCH game that does not exist', ()=>{
+    
+ return request(app)
+     .patch('/api/games/604b71f4142de24ba6fe049a')
+     .expect(404)
+     .then((res)=>{
+       expect(res.body.msg).toBe("Sorry, this game can't be found")
+     })
     })
+  })
 })
