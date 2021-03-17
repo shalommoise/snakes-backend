@@ -1,6 +1,6 @@
 
 let db = require('../Schema');
-const {passwordGenerator, radnomCoordinate, isSnakeEatingSnake , checkSnake, checkFood, snakeEatItself } = require("../utils/utils");
+const { radnomCoordinate, isSnakeEatingSnake , checkSnake, checkFood, snakeEatItself } = require("../utils/utils");
 const {standardErr} = require('../errors')
 const postGame = (req, res)=>{
   
