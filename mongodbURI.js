@@ -1,0 +1,1 @@
+exports.MONGODB_URI = 'mongodb+srv://USERNAME:PASSWORD@snakes-be.bmn12.mongodb.net/snakes-be?retryWrites=true&w=majority'
