@@ -67,7 +67,11 @@ const checkFood = (food, snake)=>{
     })
    return isInFood;
 }
-
+const newFoodGenorator = (size, snake)=>{
+    let  newFood =  radnomCoordinate(size);
+  if (checkFood(newFood, snake)) return newFoodGenorator(size, snake);
+  else return newFood;
+}
 
 module.exports = {
   passwordGenerator, 
@@ -75,5 +79,6 @@ module.exports = {
   isSnakeEatingSnake, 
   checkSnake, 
   checkFood,
-  snakeEatItself
+  snakeEatItself,
+  newFoodGenorator
 }

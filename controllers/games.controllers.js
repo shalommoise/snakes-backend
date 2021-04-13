@@ -1,6 +1,6 @@
 
 let db = require('../Schema');
-const { radnomCoordinate, isSnakeEatingSnake , checkSnake, checkFood, snakeEatItself } = require("../utils/utils");
+const {  isSnakeEatingSnake , checkSnake, snakeEatItself ,newFoodGenorator} = require("../utils/utils");
 const {standardErr} = require('../errors')
 const postGame = (req, res)=>{
   
@@ -110,10 +110,6 @@ const foodAndPointsUpdate = (id, points, foodLoc, snake) =>{
     
 }
 
-const newFoodGenorator = (size, snake)=>{
-    let  newFood =  radnomCoordinate(size);
-  if (checkFood(newFood, snake)) return newFoodGenorator(size, snake);
-  else return newFood;
-}
+
 
 module.exports = {postGame, getAllGames, delAllGames, getGameById, patchGame, removeGameById}
