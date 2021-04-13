@@ -67,19 +67,24 @@ if(player1) game.player1 = player1;
 if(snake1){ 
     game.snake1 = snake1;
    if(checkSnake(snake1,game.food)) { 
-       game.points1++ 
-       game.food = radnomCoordinate(game.size);
+       const newFood = newFoodGenorator(game.size, snake1);
+    const newPoints = game.points1 + 1;
+    foodAndPointsUpdate(id , newPoints, newFood , 1)
+       game.points1++;
 };
-if (checkFood(game.food, snake1)) game.food = radnomCoordinate(game.size)
+
 };
 if(snake2) {
     game.snake2 = snake2;
      if(checkSnake(snake2,game.food)) { 
-       game.points2++ 
-       game.food = radnomCoordinate(game.size);
+       
+    const newFood = newFoodGenorator(game.size, snake2);
+    const newPoints = game.points2 + 1;
+    foodAndPointsUpdate(id , newPoints, newFood , 2);
+     game.points2++;
 };
     
-if (checkFood(game.food, snake2)) game.food = radnomCoordinate(game.size)
+
 };
 game.snake1 = isSnakeEatingSnake(game.snake1, game.snake2);
 game.snake2 = isSnakeEatingSnake(game.snake2, game.snake1);
@@ -97,6 +102,18 @@ if(!game.snake1.length && !game.snake2.length) game.game_over = true;
 })
 }
 
+const foodAndPointsUpdate = (id, points, foodLoc, snake) =>{
 
+    db.Game.findOneAndUpdate({_id:id}, { [`points${snake}`]: points, food: foodLoc}, (err, game)=>{
+        if(err)console.log(err);
+    });
+    
+}
+
+const newFoodGenorator = (size, snake)=>{
+    let  newFood =  radnomCoordinate(size);
+  if (checkFood(newFood, snake)) return newFoodGenorator(size, snake);
+  else return newFood;
+}
 
 module.exports = {postGame, getAllGames, delAllGames, getGameById, patchGame, removeGameById}
