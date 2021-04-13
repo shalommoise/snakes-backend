@@ -72,6 +72,10 @@ const newFoodGenorator = (size, snake)=>{
   if (checkFood(newFood, snake)) return newFoodGenorator(size, snake);
   else return newFood;
 }
+const didSnakeChange =(oldSnake, newSnake)=>{
+  if (oldSnake.length !== newSnake.length) return true;
+  return false;
+}
 
 module.exports = {
   passwordGenerator, 
@@ -80,5 +84,6 @@ module.exports = {
   checkSnake, 
   checkFood,
   snakeEatItself,
-  newFoodGenorator
+  newFoodGenorator,
+  didSnakeChange
 }

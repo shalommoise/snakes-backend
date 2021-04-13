@@ -1,4 +1,4 @@
-const {passwordGenerator, radnomCoordinate, isSnakeEatingSnake, snakeEatItself} = require("../utils/utils");
+const {passwordGenerator, radnomCoordinate, isSnakeEatingSnake, snakeEatItself, didSnakeChange} = require("../utils/utils");
 
 describe("passwordGenerator",()=>{
   test('Returns string', () => {
@@ -101,4 +101,16 @@ test('snake1 eats itslef makes it go to []', ()=>{
      expect(snakeEatItself(snake)).toEqual([]);
   })
   
+})
+describe.only("didSnakeChange", ()=>{
+  test("snakes did not change", ()=>{
+    const newSnake = [[5,15],[4,15],[3,15]];
+    const oldSnake = [[5,15],[4,15],[3,15]];
+    expect(didSnakeChange(oldSnake, newSnake)).toBe(false)
+  });
+  test("snakes did change", ()=>{
+    const newSnake = [[5,16],[5,15]];
+    const oldSnake = [[5,15],[4,15],[3,15]];
+    expect(didSnakeChange(oldSnake, newSnake)).toBe(true)
+  })
 })
