@@ -1,6 +1,6 @@
 
 let db = require('../Schema');
-const {  isSnakeEatingSnake , checkSnake, snakeEatItself ,newFoodGenorator} = require("../utils/utils");
+const {  isSnakeEatingSnake , checkSnake, snakeEatItself ,newFoodGenorator, didSnakeChange} = require("../utils/utils");
 const {standardErr} = require('../errors')
 const postGame = (req, res)=>{
   
@@ -44,7 +44,10 @@ const getGameById =(req,res)=>{
     const {id} = req.params
 db.Game.findOne({_id: id}, (err, game)=>{
     if(!game) standardErr(res, 404, "Sorry, this game can't be found");
-else res.json({game});
+else{
+     if(!game.snake1.length && !game.snake2.length)  endGame(id);
+    res.json({game})
+};
 })
 }
 const removeGameById =(req,res)=>{
@@ -86,11 +89,18 @@ if(snake2) {
     
 
 };
-game.snake1 = isSnakeEatingSnake(game.snake1, game.snake2);
-game.snake2 = isSnakeEatingSnake(game.snake2, game.snake1);
-game.snake1 = snakeEatItself(game.snake1);
-game.snake2 = snakeEatItself(game.snake2);
-if(!game.snake1.length && !game.snake2.length) game.game_over = true; 
+const checkSanke12 = isSnakeEatingSnake(game.snake1, game.snake2);
+const checkSanke21 = isSnakeEatingSnake(game.snake2, game.snake1);
+const checkSnake1 = snakeEatItself(game.snake1);
+const checkSanke2 = snakeEatItself(game.snake2);
+if(didSnakeChange(game.snake1, checkSanke12)) changeSnakeSize(id, checkSanke12,1);
+if(didSnakeChange(game.snake1, checkSnake1)) changeSnakeSize(id, checkSnake1,1);
+if(didSnakeChange(game.snake2, checkSanke21)) changeSnakeSize(id, checkSanke21,2);
+if(didSnakeChange(game.snake2, checkSanke2)) changeSnakeSize(id, checkSanke2,2);
+
+
+if(!game.snake1.length && !game.snake2.length)  endGame(id);
+ 
 
  if(active || active === false) game.active = active;
  if(game_over){ 
@@ -110,6 +120,15 @@ const foodAndPointsUpdate = (id, points, foodLoc, snake) =>{
     
 }
 
-
+const changeSnakeSize = (id, snake, number)=>{
+     db.Game.findOneAndUpdate({_id:id}, { [`snake${number}`]: snake}, (err, game)=>{
+        if(err)console.log(err);
+    });
+}
+const endGame =((id)=>{
+    db.Game.findOneAndUpdate({_id:id}, { game_over: true, active: false}, (err, game)=>{
+        if(err)console.log(err);
+    });
+})
 
 module.exports = {postGame, getAllGames, delAllGames, getGameById, patchGame, removeGameById}
