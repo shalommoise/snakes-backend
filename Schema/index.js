@@ -1,6 +1,6 @@
 let mongoose = require('mongoose');
 const {MONGODB_URI} = require('../mongodbURI');
-console.log(MONGODB_URI)
+
 mongoose.connect(
         MONGODB_URI ||
     'mongodb://localhost/snakes-be',
