@@ -44,8 +44,8 @@ describe("/api", ()=>{
   })
   
   
- 
-  it("?live=true", ()=>{
+ describe("?live=true", ()=>{
+  it("Get only games waiting to be played", ()=>{
  return request(app)
       .post("/api/games/")
       .send({player1: "James"})
@@ -61,6 +61,32 @@ describe("/api", ()=>{
           expect(res.body.games.length).toBe(1)
         })
       })
+  })
+  it("Post randomPlayerJoin to true", ()=>{
+    return request(app)
+      .post("/api/games/")
+      .send({player1: "James", randomPlayerJoin: false})
+      .expect(201)
+      .then((res)=>{
+        expect(res.body.game.randomPlayerJoin).toBe(false)
+      })
+  })
+  it("Change randomPlayerJoin to true", ()=>{
+    return request(app)
+      .post("/api/games/")
+      .send({player1: "James"})
+      .then((res)=>{
+         expect(res.body.game.randomPlayerJoin).toBe(true)
+         const {_id} = res.body.game
+         return request(app)
+         .patch(`/api/games/${_id}`)
+         .send({randomPlayerJoin: false})
+         .expect(201)
+         .then((res)=>{
+           expect(res.body.game.randomPlayerJoin).toBe(false)
+         })
+      })
+  })
   })
   })
   describe("/:id", ()=>{

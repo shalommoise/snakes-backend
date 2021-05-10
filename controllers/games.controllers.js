@@ -59,13 +59,16 @@ else res.status(204).json({msg: "Game removed"});
 
 const patchGame = (req,res)=>{
     const {id} = req.params;
-    const {player1,player2, snake1, snake2, active, game_over, login_code} = req.body;
-    if(login_code) standardErr(res, 405, "Sorry, can't change login_code")
+    const {player1,player2, snake1, snake2, active, game_over, randomPlayerJoin} = req.body;
+  
 db.Game.findOneAndUpdate({_id:id}, req.body,(err, game)=>{
+
      if(!game) standardErr(res, 404, "Sorry, this game can't be found");
 else {
 if(player2) game.player2 = player2;
 if(player1) game.player1 = player1;
+// if(randomPlayerJoin) console.log(randomPlayerJoin) 
+game.randomPlayerJoin = randomPlayerJoin;
 if(snake1){ 
     game.snake1 = snake1;
    if(checkSnake(snake1,game.food)) { 
