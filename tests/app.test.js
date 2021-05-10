@@ -42,21 +42,25 @@ describe("/api", ()=>{
       expect(res.body).toEqual({})
     })
   })
-    test('200 GET game by login_code', () => {
-    return request(app)
+  
+  })
+ 
+  it.only("?live=true", ()=>{
+ return request(app)
       .post("/api/games/")
       .send({player1: "James"})
-      .expect(201)
-      .then((res)=>{
-        const {login_code} = res.body.game;
+      .then(()=> request(app).post("/api/games/")
+      .send({player1: "Charles", game_over: true}))
+      .then(()=> request(app).post("/api/games/").send({player1: "William", player2: "bill"}))
+       .then(()=>request(app).post("/api/games/").send({player1: "Bill", active: true})) 
+      .then(()=>{
         return request(app)
-     .get(`/api/games?login_code=${login_code}`)
-     .expect(200)
-     .then((res)=>{
-     expect(res.body.game.player1).toBe("James")
-     })
+        .get("/api/games?live=true")
+        .expect(200)
+        .then((res)=>{
+          expect(res.body.games.length).toBe(1)
+        })
       })
-  });
   })
   describe("/:id", ()=>{
     test('200 GET game by id', () => {
@@ -358,22 +362,7 @@ return request(app)
       expect(res.body.msg).toBe("Sorry, this game can't be found")
     })
   });
-  test('405 Method Not allowed: chaneging login_code', ()=>{
-    return request(app)
-    .post("/api/games")
-    .send({player1: "Samson"})
-    .expect(201)
-    .then((res)=>{
-       const {_id} = res.body.game;
-return request(app)
-     .patch(`/api/games/${_id}`)
-     .send({login_code: "Dalila"})
-     .expect(405)
-     .then((res)=>{
-       expect(res.body.msg).toBe("Sorry, can't change login_code")
-     })
-    })
-  })
+  
    test('404 delete game that does not exist', ()=>{
     
  return request(app)
@@ -393,13 +382,6 @@ return request(app)
        expect(res.body.msg).toBe("Sorry, this game can't be found")
      })
     })
-    test('404 login query not found', () => {
-     return request(app)  
-      .get('/api/games?login_code=$jK03')
-      .expect(404)
-      .then((res)=>{
-       expect(res.body.msg).toBe("Sorry, this game can't be found")
-     })
-    });
+   
   })
 })

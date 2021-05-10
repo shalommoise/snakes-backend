@@ -1,8 +1,8 @@
 let mongoose = require('mongoose'),
     Schema = mongoose.Schema;
-const {passwordGenerator, radnomCoordinate} = require("../utils/utils")
+const { radnomCoordinate} = require("../utils/utils")
 let GameSchema =  new Schema({
-  login_code: { type: String , default: passwordGenerator() },
+  
   player1: { type: String, default: "player1" },
   player2: { type: String, default: "player2" },
   snake1: { type: Array, default: [[5,15],[4,15],[3,15]] },

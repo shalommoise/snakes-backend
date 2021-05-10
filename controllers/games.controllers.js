@@ -3,8 +3,7 @@ let db = require('../Schema');
 const {  isSnakeEatingSnake , checkSnake, snakeEatItself ,newFoodGenorator, didSnakeChange} = require("../utils/utils");
 const {standardErr} = require('../errors')
 const postGame = (req, res)=>{
-  
-const {login_code} = req.body;
+
 let newGame = new db.Game(req.body); 
 newGame.save((err, game)=> {
 if(err) console.log(err)
@@ -17,14 +16,9 @@ if(err) console.log(err)
 };
 
 const getAllGames =(req,res)=>{
-    const {login_code} = req.query;
-      if(login_code) {
-  db.Game.findOne({ login_code}, (err, game)=>{
-    if(!game) standardErr(res, 404, "Sorry, this game can't be found");
-     else  res.json({game})
-    })
-    }
-    else db.Game.find((err, allGames)=>{
+   
+
+    db.Game.find((err, allGames)=>{
 if(err) console.log(err);
    res.json({
         games: allGames
