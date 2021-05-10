@@ -16,9 +16,14 @@ if(err) console.log(err)
 };
 
 const getAllGames =(req,res)=>{
-   
-
-    db.Game.find((err, allGames)=>{
+   const {live} = req.query;
+if(live) {
+  db.Game.find( {game_over: false, active: false, snake1: [[5,15],[4,15],[3,15]], snake2:[[26,15],[27,15],[28,15]], points1: 0, points2: 0, },(err, games)=>{
+if(err) console.log(err);
+   res.json({games})
+    })
+}
+   else db.Game.find((err, allGames)=>{
 if(err) console.log(err);
    res.json({
         games: allGames

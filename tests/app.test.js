@@ -45,13 +45,13 @@ describe("/api", ()=>{
   
   })
  
-  it.only("?live=true", ()=>{
+  it("?live=true", ()=>{
  return request(app)
       .post("/api/games/")
       .send({player1: "James"})
       .then(()=> request(app).post("/api/games/")
       .send({player1: "Charles", game_over: true}))
-      .then(()=> request(app).post("/api/games/").send({player1: "William", player2: "bill"}))
+      .then(()=> request(app).post("/api/games/").send({player1: "William", player2: "bill", points1: 2}))
        .then(()=>request(app).post("/api/games/").send({player1: "Bill", active: true})) 
       .then(()=>{
         return request(app)
