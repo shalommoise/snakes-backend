@@ -72,7 +72,8 @@ if(snake1){
    if(checkSnake(snake1,game.food)) { 
        const newFood = newFoodGenorator(game.size, snake1);
     const newPoints = game.points1 + 1;
-    foodAndPointsUpdate(id , newPoints, newFood , 1)
+    foodAndPointsUpdate(id , newPoints, newFood , 1);
+       game.food = newFood;
        game.points1++;
 };
 
@@ -84,22 +85,39 @@ if(snake2) {
     const newFood = newFoodGenorator(game.size, snake2);
     const newPoints = game.points2 + 1;
     foodAndPointsUpdate(id , newPoints, newFood , 2);
+     game.food = newFood;
      game.points2++;
 };
     
 
 };
-const checkSanke12 = isSnakeEatingSnake(game.snake1, game.snake2);
-const checkSanke21 = isSnakeEatingSnake(game.snake2, game.snake1);
+const checkSnake12 = isSnakeEatingSnake(game.snake1, game.snake2);
+const checkSnake21 = isSnakeEatingSnake(game.snake2, game.snake1);
 const checkSnake1 = snakeEatItself(game.snake1);
-const checkSanke2 = snakeEatItself(game.snake2);
-if(didSnakeChange(game.snake1, checkSanke12)) changeSnakeSize(id, checkSanke12,1);
-if(didSnakeChange(game.snake1, checkSnake1)) changeSnakeSize(id, checkSnake1,1);
-if(didSnakeChange(game.snake2, checkSanke21)) changeSnakeSize(id, checkSanke21,2);
-if(didSnakeChange(game.snake2, checkSanke2)) changeSnakeSize(id, checkSanke2,2);
+const checkSnake2 = snakeEatItself(game.snake2);
+if(didSnakeChange(game.snake1, checkSnake12)) {
+    changeSnakeSize(id, checkSnake12,1);
+       game.snake1 = checkSnake12;
+}
+else if(didSnakeChange(game.snake1, checkSnake1)) {
+    changeSnakeSize(id, checkSnake1,1);
+          game.snake1 = checkSnake1;
+};
+if(didSnakeChange(game.snake2, checkSnake21)) {
+    changeSnakeSize(id, checkSnake21,2);
+     game.snake2 = checkSnake21;
+}
+else if(didSnakeChange(game.snake2, checkSnake2)) {
+    changeSnakeSize(id, checkSnake2,2);
+        game.snake2 = checkSnake2;
+};
 
 
-if(!game.snake1.length && !game.snake2.length)  endGame(id);
+if(!game.snake1.length && !game.snake2.length) { 
+    endGame(id);
+     game.game_over = true;
+     game.active = false;
+};
  
 
  if(active || active === false) game.active = active;
@@ -109,7 +127,7 @@ if(!game.snake1.length && !game.snake2.length)  endGame(id);
     }
     res.status(201).json({game})
 };
-})
+}).catch((err)=>console.log(err))
 }
 
 const foodAndPointsUpdate = (id, points, foodLoc, snake) =>{
