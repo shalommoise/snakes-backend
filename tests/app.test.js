@@ -43,7 +43,7 @@ describe("/api", ()=>{
     })
   })
   
-  })
+  
  
   it("?live=true", ()=>{
  return request(app)
@@ -51,7 +51,7 @@ describe("/api", ()=>{
       .send({player1: "James"})
       .then(()=> request(app).post("/api/games/")
       .send({player1: "Charles", game_over: true}))
-      .then(()=> request(app).post("/api/games/").send({player1: "William", player2: "bill", points1: 2}))
+      .then(()=> request(app).post("/api/games/").send({player1: "William", player2: "bill", randomPlayerJoin: false}))
        .then(()=>request(app).post("/api/games/").send({player1: "Bill", active: true})) 
       .then(()=>{
         return request(app)
@@ -61,6 +61,7 @@ describe("/api", ()=>{
           expect(res.body.games.length).toBe(1)
         })
       })
+  })
   })
   describe("/:id", ()=>{
     test('200 GET game by id', () => {

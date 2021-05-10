@@ -13,7 +13,8 @@ let GameSchema =  new Schema({
   game_over: { type: Boolean, default: false },
   active: { type: Boolean, default: false }, 
   size: { type: Number, default: 30 },
-  date: { type: Date, default: Date.now }
+  date: { type: Date, default: Date.now },
+  randomPlayerJoin: { type: Boolean, default: true }
 });
 
 let Game = mongoose.model('Game', GameSchema)
