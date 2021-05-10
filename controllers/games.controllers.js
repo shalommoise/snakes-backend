@@ -67,7 +67,7 @@ db.Game.findOneAndUpdate({_id:id}, req.body,(err, game)=>{
 else {
 if(player2) game.player2 = player2;
 if(player1) game.player1 = player1;
-// if(randomPlayerJoin) console.log(randomPlayerJoin) 
+
 game.randomPlayerJoin = randomPlayerJoin;
 if(snake1){ 
     game.snake1 = snake1;
