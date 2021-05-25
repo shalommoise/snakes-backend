@@ -2,6 +2,10 @@
 
 Snakes is a 2 player game based on the classic [snake game](https://snake-game-by-shalom.netlify.app/).
 
+### [Game Link](https://doublesnakes.netlify.app/)
+
+## Description
+
 As it is multi-player, the game requires a backend for both players to change their snake's position and receive their oppopnent snake's position.
 
 The database is stored on MongoDB Atlas and hosted by Heroku.
@@ -16,3 +20,10 @@ The database is stored on MongoDB Atlas and hosted by Heroku.
 
 - [Jest](https://jestjs.io/) - "Delightful JavaScript testing"
 - [supertest module](https://www.npmjs.com/package/supertest) - "HTTP assertions made easy via superagent."
+
+## Links
+
+- [Front-end app](https://doublesnakes.netlify.app/)
+
+- [Heroku - back-end app](https://snakes-be.herokuapp.com/api/)
+- [GitHub - back-end repo](https://github.com/shalommoise/snakes-backend)
